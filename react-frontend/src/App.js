@@ -4,6 +4,9 @@ import { Landing } from "./Landing.js";
 import { Home } from "./Home.js";
 import { ProtectedRoute } from "./utils/ProtectedRoute";
 import { fakeAuth } from "./utils/FakeAuth.js";
+import { useAuth } from "./context/AuthProvider";
+import { AuthProvider } from "./context/AuthProvider";
+
 
 export const AuthContext = React.createContext(null);  // we will use this in other components
 
@@ -19,39 +22,34 @@ const App = () => {
       const handleLogout = () => setToken(null);
 
   return (
-    <>
-    {/*
+    <AuthProvider>
       <Navigation />
-      {token ? (
-<button onClick={handleLogout}>Sign Out</button>
-) : (
-<button onClick={handleLogin}>Sign In</button>
-)}
-*/}
-<Navigation />
-<AuthContext.Provider value={token}>
-<h1>React Router</h1>
-<Routes>
-<Route index element={<Home onLogin={handleLogin} />} />
- <Route path="landing" element={<Landing />} />
- <Route path="home" element={<Home onLogin={handleLogin} />} />
- <Route path="*" element={<p>There's nothing here: 404!</p>} />
-</Routes>
-</AuthContext.Provider>
-</>
-);
-};
+      <h1>React Router</h1>
 
-const Navigation = ({ token, onLogout }) => (
+<Routes>
+  <Route index element={<Home />} />
+  <Route path="landing" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
+  <Route path="home" element={<Home />} />
+  <Route path="*" element={<p>There's nothing here: 404!</p>} />
+</Routes>
+    </AuthProvider>
+    );
+  };
+  
+const Navigation = () => {
+  const { value } = useAuth();
+  return (
     <nav>
-    <NavLink to="/landing">Landing</NavLink>
-    {token && (
-        <button type="button" onClick={onLogout}>
+      <NavLink to="/home">Home</NavLink>
+      <NavLink to="/landing">Landing</NavLink>
+      {value.token && (
+        <button type="button" onClick={value.onLogout}>
           Sign Out
        </button>
        )
     }
     </nav>
 );
+}
 
 export default App;
