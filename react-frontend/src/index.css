@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 * {
   margin: 0;
   padding: 1rem;
@@ -10,11 +12,12 @@ html {
   font-family: "Nunito", sans-serif;
   font-size: 22px;
   color: #fff;
+
 }
 
 body {
   min-height: 100vh;
-  background-color: dodgerblue;
+  background-color: rgb(200, 193, 203);
 }
 
 .App {
@@ -23,7 +26,6 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 1rem 0.5rem;
 }
 
 section {
@@ -33,7 +35,6 @@ section {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 1rem;
   background-color: rgba(0, 0, 0, 0.4);
 }
 
