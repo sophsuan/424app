@@ -33,6 +33,7 @@ export const Home = () => {
             </p>
           )}
           <input
+            type="password"
             className="text-black mt-2 pl-3 h-10 shadow-inner"
             {...register("pwd", { required: true })}
             aria-invalid={errors.password ? "true" : "false"}
