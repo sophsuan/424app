@@ -22,7 +22,7 @@ export const Register = () => {
 
   const mutation = useMutation(
     (userData) => {
-      return Axios.post("/account/register", userData);
+      return Axios.post("/users/register", userData);
     },
     {
       onSuccess: () => {

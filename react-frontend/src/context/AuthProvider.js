@@ -7,9 +7,9 @@ import {
   QueryClientProvider,
 } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { fakeAuth } from "../utils/FakeAuth";
+import Cookies from "js-cookie";
 import Axios from "axios";
-Axios.defaults.baseURL = "http://localhost:5000";
+Axios.defaults.baseURL = "https://localhost:5000";
 
 const AuthContext = createContext({});
 
@@ -23,11 +23,12 @@ export const AuthProvider = ({ children }) => {
 
   const mutation = useMutation(
     (userData) => {
-      return Axios.post("/account/login", userData);
+      return Axios.post("/users/login", userData);
     },
     {
       onSuccess: (data) => {
-        setToken(data);
+        setToken(data.data.token);
+        Cookies.set("token", data.data.token, { expires: 0.1 }); // ~2.5 hours
         navigate("/landing");
       },
     }
@@ -39,12 +40,21 @@ export const AuthProvider = ({ children }) => {
 
   const handleLogout = () => {
     setToken(null);
+    Cookies.remove("token");
+  };
+
+  const handleCookie = (cookieToken) => {
+    if (!cookieToken) {
+      return null;
+    }
+    setToken(cookieToken);
   };
 
   const value = {
     token,
     onLogin: handleLogin,
     onLogout: handleLogout,
+    checkCookie: handleCookie,
   };
 
   return (

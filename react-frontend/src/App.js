@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route, NavLink } from "react-router-dom";
 import { Landing } from "./Landing.js";
 import { Home } from "./Home.js";
@@ -15,6 +15,7 @@ import { useAuth } from "./context/AuthProvider";
 import { AuthProvider } from "./context/AuthProvider";
 import Axios from "axios";
 import { Register } from "./Register.js";
+import Cookies from "js-cookie";
 
 export const AuthContext = React.createContext(null); // we will use this in other components
 const queryClient = new QueryClient();
@@ -22,7 +23,7 @@ const queryClient = new QueryClient();
 const App = () => {
   Axios({
     method: "GET",
-    url: "http://localhost:5000/",
+    url: "https://localhost:5000/",
     headers: {
       "Content-Type": "application/json",
     },
@@ -57,6 +58,14 @@ const App = () => {
 
 const Navigation = () => {
   const { value } = useAuth();
+
+  // Similar to componentDidMount and componentDidUpdate:
+  useEffect(() => {
+    // Update the document title using the browser API
+    value.checkCookie(Cookies.get("token"));
+    console.log("useEffect called");
+  }, []);
+
   return (
     <nav className="bg-blue-900 ">
       <NavLink className="hover:text-blue-300" to="/home">
