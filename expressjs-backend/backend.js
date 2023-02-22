@@ -44,6 +44,20 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+// https://stackoverflow.com/questions/2794137/sanitizing-user-input-before-adding-it-to-the-dom-in-javascript
+function sanitize(string) {
+  const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#x27;',
+      "/": '&#x2F;',
+  };
+  const reg = /[&<>"'/]/ig;
+  return string.replace(reg, (match)=>(map[match]));
+}
+
 //app.get("/users", auth, async (req, res) => { // this version will be used to protect this route once axios error is resolved
 app.get("/users", async (req, res) => {
   try {
@@ -98,7 +112,7 @@ app.post("/users/register", async (req, res) => {
         console.log("success");
         res.status(201).send({
           message: "user created successfully",
-          result,
+          sanitize(result),
         });
       })
       .catch((error) => {
@@ -107,7 +121,7 @@ app.post("/users/register", async (req, res) => {
           error,
         });
       });
-    res.send(result);
+    res.send(sanitize(result));
   } catch (error) {
     res.status(500).send({
       message: "password was not hashed successfully",
