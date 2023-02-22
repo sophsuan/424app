@@ -59,7 +59,7 @@ function sanitize(string) {
 }
 
 //app.get("/users", auth, async (req, res) => { // this version will be used to protect this route once axios error is resolved
-app.get("/users", async (req, res) => {
+app.get("/users", auth, async (req, res) => {
   try {
     let result = await userModel.find();
     console.log(result);

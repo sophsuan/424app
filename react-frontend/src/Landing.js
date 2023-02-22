@@ -12,7 +12,9 @@ export const Landing = () => {
   // currently erroring because of certificate error in get request
   useEffect(() => {
     console.log("inside useeffect");
-    Axios.get("https://localhost:5000/users")
+    Axios.get("https://localhost:5000/users", {
+      headers: { Authorization: `token ${value.token}` },
+    })
       .then((data) => {
         console.log("DATA", data);
         setUsers(data.data);
