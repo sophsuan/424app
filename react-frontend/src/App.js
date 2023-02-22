@@ -1,16 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, NavLink } from "react-router-dom";
 import { Landing } from "./Landing.js";
 import { Home } from "./Home.js";
 import { ProtectedRoute } from "./utils/ProtectedRoute";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "react-query";
-import { fakeAuth } from "./utils/FakeAuth.js";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { useAuth } from "./context/AuthProvider";
 import { AuthProvider } from "./context/AuthProvider";
 import Axios from "axios";
@@ -28,7 +21,7 @@ const App = () => {
       "Content-Type": "application/json",
     },
   }).then((res) => {
-    console.log(res.data.message);
+    console.log("app.js", res.data.message);
   });
 
   return (
@@ -63,7 +56,6 @@ const Navigation = () => {
   useEffect(() => {
     // Update the document title using the browser API
     value.checkCookie(Cookies.get("token"));
-    console.log("useEffect called");
   }, []);
 
   return (
