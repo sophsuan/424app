@@ -1,26 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 //import { AuthContext } from "./App.js";
 import { useAuth } from "./context/AuthProvider";
 import Axios from "axios";
-Axios.defaults.baseURL = "https://localhost:5000";
+// Axios.defaults.baseURL = "https://localhost:5000";
 
 export const Landing = () => {
   //const token = React.useContext(AuthContext);
   const { value } = useAuth();
-  console.log("landing", value);
-  const { users, setUsers } = useState("");
-
+  // console.log("landing", value);
+  const [users, setUsers] = useState([]);
   // currently erroring because of certificate error in get request
-  Axios.get("/users")
-    .then((data) => {
-      console.log(data);
-      setUsers(data);
+  useEffect(() => {
+    console.log("inside useeffect");
+    Axios.get("https://localhost:5000/users", {
+      headers: { Authorization: `token ${value.token}` },
     })
-    .catch((e) => {
-      console.log(e);
-    });
+      .then((data) => {
+        console.log("DATA", data);
+        setUsers(data.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
-  console.log(users);
+  console.log("USERS", users);
 
   // const [tok, setTok] = useState(Cookies.get("token"));
 
@@ -32,7 +36,7 @@ export const Landing = () => {
         Authenticated as {value.token}
       </div>
       {users.map((user) => {
-        <div>user.id</div>;
+        return <div>{user.id}</div>;
       })}
     </>
   );

@@ -47,19 +47,19 @@ app.get("/", (req, res) => {
 // https://stackoverflow.com/questions/2794137/sanitizing-user-input-before-adding-it-to-the-dom-in-javascript
 function sanitize(string) {
   const map = {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#x27;',
-      "/": '&#x2F;',
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#x27;",
+    "/": "&#x2F;",
   };
-  const reg = /[&<>"'/]/ig;
-  return string.replace(reg, (match)=>(map[match]));
+  const reg = /[&<>"'/]/gi;
+  return string.replace(reg, (match) => map[match]);
 }
 
 //app.get("/users", auth, async (req, res) => { // this version will be used to protect this route once axios error is resolved
-app.get("/users", async (req, res) => {
+app.get("/users", auth, async (req, res) => {
   try {
     let result = await userModel.find();
     console.log(result);
@@ -112,7 +112,7 @@ app.post("/users/register", async (req, res) => {
         console.log("success");
         res.status(201).send({
           message: "user created successfully",
-          sanitize(result),
+          result,
         });
       })
       .catch((error) => {
