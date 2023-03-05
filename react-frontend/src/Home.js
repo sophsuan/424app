@@ -1,6 +1,5 @@
-import { ErrorResponse } from "@remix-run/router";
 import { useAuth } from "./context/AuthProvider";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -19,11 +18,14 @@ export const Home = () => {
 
   return (
     <>
-      <h2 className="text-[60px] font-black text-blue-900">Home (Public)</h2>
-      <div className="text-red-900">
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <h2 className="font-black text-zinc-900 text-5xl font-mono m-2 p-2">
+        Home(Public)
+      </h2>
+      <div className="font-mono">
+        <form className="w-[70%]" onSubmit={handleSubmit(onSubmit)}>
           <input
-            className="text-black pl-3 h-10 shadow-inner "
+            placeholder="...type username here"
+            className="text-black pl-4 border-zinc-800 border-4 m-4 h-14 shadow-inner bg-zinc-100"
             {...register("uname", { required: true })}
             aria-invalid={errors.uname ? "true" : "false"}
           />
@@ -33,7 +35,9 @@ export const Home = () => {
             </p>
           )}
           <input
-            className="text-black mt-2 pl-3 h-10 shadow-inner"
+            placeholder="...type password here"
+            type="password"
+            className="text-black pl-4 border-zinc-800 border-4 m-4 mt-0 h-14 shadow-inner bg-zinc-100"
             {...register("pwd", { required: true })}
             aria-invalid={errors.password ? "true" : "false"}
           />
@@ -44,13 +48,13 @@ export const Home = () => {
           )}
           {/*<input type="submit" value="Login"/>*/}
           <button
-            className="text-blue-900 bg-white border border-blue-900 border-4 rounded-none font-bold"
+            className="text-zinc-900 text-2xl font-black font-mono p-2 m-4 bg-white border border-zinc-900 border-4"
             type="submit"
           >
             Login
           </button>
           <button
-            className="bg-blue-900 font- text-white rounded-none"
+            className="bg-zinc-900 font-black text-2xl font-mono p-2 m-4 mt-0 text-white rounded-none"
             onClick={() => {
               navigate("/register");
             }}

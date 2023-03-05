@@ -1,12 +1,6 @@
 import { useAuth } from "./context/AuthProvider";
-import React, { useState, useEffect } from "react";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "react-query";
+import React from "react";
+import { useMutation } from "react-query";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -25,7 +19,8 @@ export const Register = () => {
       return Axios.post("/users/register", userData);
     },
     {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        console.log("register", data);
         navigate("/home");
       },
     }
@@ -38,11 +33,14 @@ export const Register = () => {
 
   return (
     <>
-      <h2 className="text-[60px] font-black text-blue-900">Register</h2>
-      <div className="text-red-900">
-        <form className="" onSubmit={handleSubmit(onSubmit)}>
+      <h2 className="font-black text-zinc-900 text-5xl font-mono m-2 p-2">
+        Register
+      </h2>
+      <div className="text-zinc-900 font-mono">
+        <form className="w-[80%]" onSubmit={handleSubmit(onSubmit)}>
           <input
-            className="text-black pl-3 mb-2 h-10 shadow-inner "
+            placeholder="...type username here"
+            className="text-black pl-4 border-zinc-800 border-4 m-4 mt-0 h-14 shadow-inner bg-zinc-100"
             {...register("uname", {
               required: true,
             })}
@@ -54,7 +52,9 @@ export const Register = () => {
             </p>
           )}
           <input
-            className="mb-2 h-10 shadow-inner "
+            placeholder="...type password here"
+            type="password"
+            className="text-black pl-4 border-zinc-800 border-4 m-4 mt-0 h-14 shadow-inner bg-zinc-100"
             {...register("pwd", {
               required: true,
               patten:
@@ -68,7 +68,7 @@ export const Register = () => {
             </p>
           )}
           <button
-            className="text-white bg-blue-900 font-bold rounded-none"
+            className="bg-zinc-900 font-black text-2xl font-mono p-2 m-4 mt-0 text-white rounded-none"
             type="submit"
           >
             Register

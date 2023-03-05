@@ -1,11 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "react-query";
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import Axios from "axios";
@@ -19,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
 
   // Access the client
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   const mutation = useMutation(
     (userData) => {

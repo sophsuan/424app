@@ -26,9 +26,11 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
+      <AuthProvider className="">
         <Navigation />
-        <h1 className="text-blue-900">424 Assignment</h1>
+        <h1 className="text-zinc-900 font-mono text-3xl m-2 p-2">
+          424 Assignment
+        </h1>
 
         <Routes>
           <Route index element={<Home />} />
@@ -59,16 +61,16 @@ const Navigation = () => {
   }, []);
 
   return (
-    <nav className="bg-blue-900 ">
-      <NavLink className="hover:text-blue-300" to="/home">
+    <nav className="bg-zinc-900 p-8 font-mono text-2xl">
+      <NavLink className="hover:text-purple-400 mr-4" to="/home">
         Home
       </NavLink>
-      <NavLink className="hover:text-blue-300" to="/landing">
+      <NavLink className="hover:text-purple-400 mr-4 ml-4" to="/landing">
         Landing
       </NavLink>
       {value.token && (
         <button
-          className="hover:text-blue-300"
+          className="ml-4 hover:text-purple-400"
           type="button"
           onClick={value.onLogout}
         >
